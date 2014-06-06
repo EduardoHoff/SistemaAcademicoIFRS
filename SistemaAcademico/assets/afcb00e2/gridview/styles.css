@@ -3,6 +3,10 @@
 	background:url(loading.gif) no-repeat;
 }
 
+.items thead th{
+   background:green!important;
+}
+
 .grid-view
 {
 	padding: 15px 0;
@@ -61,7 +65,7 @@
 
 .grid-view table.items tr.odd
 {
-	background: #E5F1F4;
+	background: #e7efd1;
 }
 
 .grid-view table.items tr.selected

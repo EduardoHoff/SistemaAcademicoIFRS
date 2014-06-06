@@ -10,6 +10,7 @@
  * @property string $nome
  * @property string $dataInicio
  * @property string $dataFinal
+ * @property string $diasSemana
  * @property string $periodo
  *
  * The followings are the available model relations:
@@ -37,11 +38,12 @@ class Turma extends CActiveRecord
 		return array(
 			array('id_disciplina, id_pessoa', 'numerical', 'integerOnly'=>true),
 			array('nome', 'length', 'max'=>30),
+			array('diasSemana', 'length', 'max'=>50),
 			array('periodo', 'length', 'max'=>6),
 			array('dataInicio, dataFinal', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_disciplina, id_pessoa, nome, dataInicio, dataFinal, periodo', 'safe', 'on'=>'search'),
+			array('id, id_disciplina, id_pessoa, nome, dataInicio, dataFinal, diasSemana, periodo', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,8 +71,9 @@ class Turma extends CActiveRecord
 			'id_disciplina' => 'Id Disciplina',
 			'id_pessoa' => 'Id Pessoa',
 			'nome' => 'Nome',
-			'dataInicio' => 'Data de Inicio',
+			'dataInicio' => 'Data Inicio',
 			'dataFinal' => 'Data Final',
+			'diasSemana' => 'Dias Semana',
 			'periodo' => 'Periodo',
 		);
 	}
@@ -99,6 +102,7 @@ class Turma extends CActiveRecord
 		$criteria->compare('nome',$this->nome,true);
 		$criteria->compare('dataInicio',$this->dataInicio,true);
 		$criteria->compare('dataFinal',$this->dataFinal,true);
+		$criteria->compare('diasSemana',$this->diasSemana,true);
 		$criteria->compare('periodo',$this->periodo,true);
 
 		return new CActiveDataProvider($this, array(
@@ -116,5 +120,4 @@ class Turma extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-	
 }

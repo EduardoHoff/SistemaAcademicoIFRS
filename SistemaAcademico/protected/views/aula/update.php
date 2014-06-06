@@ -11,11 +11,11 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	//array('label'=>'List Aula', 'url'=>array('index')),
 	//array('label'=>'Create Aula', 'url'=>array('create')),
-	array('label'=>'Ver Aula', 'url'=>array('view', 'id'=>$model->id)),
+	array('label'=>'Visualizar Aula', 'url'=>array('view', 'id'=>$model->id)),
 	//array('label'=>'Manage Aula', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Update Aula <?php echo $model->id; ?></h1>
+<h1>Atualizar Aula</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

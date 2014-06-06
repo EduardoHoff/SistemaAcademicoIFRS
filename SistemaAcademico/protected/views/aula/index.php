@@ -1,4 +1,6 @@
+<?php date_default_timezone_set('America/Sao_Paulo'); ?>
 <?php
+
 /* @var $this AulaController */
 /* @var $dataProvider CActiveDataProvider */
 
@@ -6,11 +8,11 @@ $this->breadcrumbs=array(
 	//'Aulas',
 );
 
-/*
+
 $this->menu=array(
-	array('label'=>'Create Aula', 'url'=>array('create')),
-	array('label'=>'Editar Aulas', 'url'=>array('admin')),
-); */
+	//array('label'=>'Create Aula', 'url'=>array('create')),
+	//array('label'=>'Editar Aulas', 'url'=>array('admin')),
+); 
 ?>
 
 <h1>Aulas</h1>
@@ -27,6 +29,7 @@ if((strtotime($turma->dataInicio) < time()) and (strtotime($turma->dataFinal) > 
 } ?>
 
 <?php
+
 	$dataProvider = new CActiveDataProvider('aula',array(
         'criteria'=>array(
             'condition'=>'id_turma = "'.$_GET['turma'].'"',
@@ -35,6 +38,6 @@ if((strtotime($turma->dataInicio) < time()) and (strtotime($turma->dataFinal) > 
     ));
 	$this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
-	//'viewData' => array('aulas' => ),
+	//'viewData' => array('fakeID' => getId()),
 	'itemView'=>'_view',
 	)); ?>

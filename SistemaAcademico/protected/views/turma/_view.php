@@ -3,6 +3,9 @@
 /* @var $data Turma */
 ?>
 <?php 
+
+	if($data->disciplina->Curso->id == $idCurso) {
+
 $dataInicio = $data->dataInicio;
 $dataFinal = $data->dataFinal;
 ?>
@@ -49,3 +52,5 @@ $dataFinal = $data->dataFinal;
 	<?php echo CHtml::link(CHtml::encode("Visualizar Turma"), array('view', 'id'=>$data->id)); ?>
 	
 </div>
+
+<?php } ?>

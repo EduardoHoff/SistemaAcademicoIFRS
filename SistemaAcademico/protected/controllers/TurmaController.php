@@ -67,11 +67,71 @@ class TurmaController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Turma']))
+		if(isset($_POST['Turma']) and isset($_POST['diasSemana']))
 		{
+			$dias = implode (",", $_POST['diasSemana']);
 			$model->attributes=$_POST['Turma'];
-			if($model->save())
+			$model->diasSemana=$dias;
+
+			if($model->save()) {
+				
+				$dataAula = strtotime($model->dataInicio);
+				$dataFinal = strtotime($model->dataFinal);
+				$diaDeAula = array();
+
+				while($dataAula <= $dataFinal){
+					$diasAula = explode(",", $model->diasSemana);
+					$primeiroDia = date("N", $dataAula);
+					$diasDeAula = array();
+					$tamanho = count($diasAula);
+					for($i=0; $i<$tamanho; $i++){
+						if($diasAula[$i] == "0"){
+							unset($diasAula[$i]);
+						}
+						if(isset($diasAula[$i])){
+							$diasDeAula[] = $i + 1;
+						}
+					}
+					$quantosDias = count($diasDeAula);
+					if($quantosDias == 1){
+						if($primeiroDia < $diasDeAula[0]){
+							$dataAula = $dataAula + ($diasDeAula[0] - $primeiroDia) * 86400;
+						}else{
+							if($primeiroDia > $diasDeAula[0]){
+								$dataAula = $dataAula + ((7 - $primeiroDia) + $diasDeAula[0]) * 86400;
+							}
+						}
+						Yii::app()->db->createCommand('insert into aula (id_turma, dataAula) values ("'.$model->id.'", "'.gmdate("Y-m-d", $dataAula).'")')->query();
+						$dataAula = $dataAula + 7 * 86400;
+					}elseif($quantosDias == 2){
+							if($primeiroDia < $diasDeAula[0]){
+								$dataAula = $dataAula + ($diasDeAula[0] - $primeiroDia) * 86400;
+							}else{
+								if($primeiroDia > $diasDeAula[0] and $primeiroDia > $diasDeAula[1]){
+									$dataAula = $dataAula + ((7 - $primeiroDia) + $diasDeAula[0]) * 86400;
+								}else{
+									if($primeiroDia > $diasDeAula[0] and $primeiroDia < $diasDeAula[1]){
+										$dataAula = $dataAula + ($diasDeAula[1] - $primeiroDia) * 86400;
+									}
+								}
+							}
+
+							$primeiroDia = date("N", $dataAula);
+
+							Yii::app()->db->createCommand('insert into aula (id_turma, dataAula) values ("'.$model->id.'", "'.gmdate("Y-m-d", $dataAula).'")')->query();
+							
+							if($primeiroDia == $diasDeAula[0]){
+								$dataAula = $dataAula + ($diasDeAula[1] - $diasDeAula[0]) * 86400;
+							}else{
+								if($primeiroDia == $diasDeAula[1]){
+									$dataAula = $dataAula + ((7 - $diasDeAula[1]) + $diasDeAula[0]) * 86400;
+								}
+							}
+					}
+					
+				}
 				$this->redirect(array('view','id'=>$model->id));
+			}	
 		}
 
 		$this->render('create',array(
@@ -90,17 +150,29 @@ class TurmaController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		
+		$diasSemana = explode(',', $model->diasSemana); //Explode before viewing
+        $model->diasSemana = $diasSemana; // asign to attribute
 
-		if(isset($_POST['Turma']))
+		if(isset($_POST['Turma']) and isset($_POST['diasSemana']))
 		{
+			$diasSemana = implode(",", $_POST['diasSemana']); // make a string of days to save
 			$model->attributes=$_POST['Turma'];
-			if($model->save())
+			$model->diasSemana=$diasSemana;
+			if($model->save()) {
+				
 				$this->redirect(array('view','id'=>$model->id));
+
+			}
+			
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
+			'diasSemana'=>$diasSemana,
 		));
+
+		
 	}
 
 	/**

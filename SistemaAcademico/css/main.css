@@ -182,7 +182,22 @@ div.view
 {
 	padding: 10px;
 	margin: 10px 0;
-	border: 1px solid #C9E0ED;
+	border: 1px solid green;
+}
+
+div.view2
+{
+	padding: 10px;
+	margin: 10px 0;
+	border: 1px solid #e7efd1;
+	background:#e7efd1;
+}
+
+div.view3
+{
+	padding: 10px;
+	margin: 10px 0;
+	border: 2px solid red;
 }
 
 div.breadcrumbs
